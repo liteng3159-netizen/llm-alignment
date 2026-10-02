@@ -63,7 +63,7 @@ generated_texts = []
 print(f"Generating completions for {len(prompts)} problems...")
 
 # Batch processing for efficiency
-batch_size = 128  # Adjust based on GPU memory
+batch_size = 256  # Adjust based on GPU memory
 for i in tqdm(range(0, len(prompts), batch_size), desc="Generating"):
     batch_prompts = prompts[i:i+batch_size]
     inputs = tokenizer(

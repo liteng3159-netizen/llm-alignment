@@ -85,3 +85,19 @@ def submit_commands(commands: list[list[str]]) -> None:
     if failures:
         print(f"{len(failures)} of {len(commands)} Modal jobs failed.", flush=True)
         raise SystemExit(1)
+    
+@app.local_entrypoint()
+def main():
+    run_command.remote([
+        "python",
+        "-u",
+        "scripts/sft.py",
+        "--model_name_or_path",
+        BASE_MODEL_PATH,
+        "--train_dataset_path",
+        SFT_TRAIN_PATH,
+        "--valid_dataset_path",
+        SFT_DEV_PATH,
+        "--output_dir",
+        f"{RESULTS_VOLUME_MOUNT_PATH}/sft",
+    ])

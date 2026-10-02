@@ -35,7 +35,30 @@ PYTHONPATH=. .venv/bin/python scripts/train_grpo.py \
 
 
 before grpo
+
 | allenai--OLMo-2-0425-1B | 38.59 |
 
 after grpo
+
 | allenai--OLMo-2-0425-1B | 52.92 |
+
+
+
+before dpo
+
+| Qwen/Qwen2.5-3B-Instruct | 68.60 |
+
+after dpo
+
+
+
+before sft
+
+| Qwen2.5-3B-gsm8k | 73.84 |
+
+after sft
+
+| Qwen2.5-3B-ultrachat-sft-gsm8k | 72.55 |
+
+
+.venv/bin/python -m pytest -k test_packed_sft_dataset

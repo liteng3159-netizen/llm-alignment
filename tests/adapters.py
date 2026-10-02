@@ -410,7 +410,12 @@ def get_packed_sft_dataset(
         "input_ids" contains the token IDs for the language modeling inputs, and "labels" contains
         the token IDs for the language modeling labels.
     """
-    raise NotImplementedError
+    # raise NotImplementedError
+    from cs336_alignment.sft_dataset import PackedSFTDataset
+    return PackedSFTDataset(tokenizer=tokenizer,
+                            dataset_path=dataset_path,
+                            seq_length=seq_length,
+                            shuffle=shuffle)
 
 
 def run_iterate_batches(
@@ -433,7 +438,11 @@ def run_iterate_batches(
     Returns:
         Iterable over batches, where each batch has size `batch_size`.
     """
-    raise NotImplementedError
+    from cs336_alignment.sft_dataset import run_iterate_batches
+
+    return run_iterate_batches(dataset=dataset,
+                               batch_size=batch_size,
+                               shuffle=shuffle)
 
 
 def run_parse_mmlu_response(
@@ -516,4 +525,13 @@ def run_compute_per_instance_dpo_loss(
     Returns:
         torch.Tensor with the DPO loss for this example.
     """
-    raise NotImplementedError
+    # raise NotImplementedError
+    from cs336_alignment.dpo import dpo_loss
+
+    return dpo_loss(policy_lm=lm,
+                    reference_lm=lm_ref,
+                    tokenizer=tokenizer,
+                    beta=beta,
+                    prompt=prompt,
+                    chosen_response=response_chosen,
+                    rejected_response=response_rejected)
