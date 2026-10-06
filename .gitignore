@@ -167,8 +167,16 @@ cython_debug/
 
 *.DS_Store
 
-wandb/
-data/
-evals/
-outputs/
-my_grpo_-mnt-data-lt-hf_home-hub-models--allenai--OLMo-2-0425-1B-snapshots-a1847dff35000b4271fa70afc5db10fd29fedbdf_gsm8k_final/
+# 忽略内容，但保留目录结构
+wandb/*
+data/*
+evals/*
+outputs/*
+my_grpo_-mnt-data-lt-hf_home-hub-models--allenai--OLMo-2-0425-1B-snapshots-a1847dff35000b4271fa70afc5db10fd29fedbdf_gsm8k_final/*
+
+# 保留占位文件，让目录能被提交
+!wandb/.gitkeep
+!data/.gitkeep
+!evals/.gitkeep
+!outputs/.gitkeep
+!my_grpo_-mnt-data-lt-hf_home-hub-models--allenai--OLMo-2-0425-1B-snapshots-a1847dff35000b4271fa70afc5db10fd29fedbdf_gsm8k_final/.gitkeep
