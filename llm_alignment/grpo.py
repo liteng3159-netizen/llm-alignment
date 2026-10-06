@@ -4,7 +4,7 @@ from typing import Literal
 from transformers import PreTrainedModel, PreTrainedTokenizer
 from torch.optim import Optimizer
 
-#给每个模型的回答打分 reward
+#给模型的每个回答打分 reward
 def compute_rollout_rewards(
     reward_fn: Callable[[str, str], dict[str, float]],
     rollout_responses: list[str],
@@ -78,6 +78,7 @@ def compute_group_normalized_rewards(
 
     return advantages, metadata
 
+
 def compute_policy_gradient_loss(
     raw_rewards_or_advantages: torch.Tensor,
     policy_log_probs: torch.Tensor,
@@ -95,11 +96,12 @@ def compute_policy_gradient_loss(
     
     advantages = raw_rewards_or_advantages.reshape(-1, 1)
 
-
+    # policy_log_probs [B T]
+    # advantages会广播到policy_log_probs的每一个token上   *是逐元素乘法
     per_token_policy_gradient_loss = -advantages * policy_log_probs
 
     metadata = {}
-
+    # per_token_policy_gradient_loss [B T]
     return per_token_policy_gradient_loss, metadata
 
 def aggregate_loss_across_microbatch(
@@ -114,9 +116,11 @@ def aggregate_loss_across_microbatch(
 
     masked_loss = per_token_policy_gradient_loss * mask
 
+    #把每个response中所有有效token的loss求平均，最终得到每个response一个loss
     loss_per_sequence = (masked_loss.sum(dim = -1) / mask.sum(dim = -1))
-
+    # [B]
     return loss_per_sequence.mean()
+    # [] 最后是一个标量
 
 #完成一次参数更新
 def grpo_train_step(
@@ -143,7 +147,7 @@ def grpo_train_step(
 ) -> tuple[torch.Tensor, dict[str, torch.Tensor | float]]:
 
     # ============================================================
-    # 1. 只支持题目要求的 standard on-policy GRPO
+    # 1. 只支持standard on-policy GRPO
     # ============================================================
 
     if baseline != "mean":
@@ -214,7 +218,8 @@ def grpo_train_step(
     # 3. 计算 rewards
     #    使用你已经写好的 compute_rollout_rewards
     # ============================================================
-
+    
+    # []
     raw_rewards, reward_metadata = compute_rollout_rewards(
         reward_fn=reward_fn,
         rollout_responses=rollout_responses,
@@ -226,6 +231,7 @@ def grpo_train_step(
     #    使用你已经写好的 helper
     # ============================================================
 
+    # []
     advantages, advantage_metadata = (
         compute_group_normalized_rewards(
             raw_rewards=raw_rewards,
@@ -406,7 +412,9 @@ def grpo_train_step(
         # --------------------------------------------------------
         # 10.2 Shift
         # --------------------------------------------------------
-
+        
+        # shift_logits
+        # [batch, sequence_length, vocab_size] 去掉最后一个是因为没有label 能计算loss
         shift_logits = logits[:, :-1, :]
         shift_labels = micro_input_ids[:, 1:]
 
@@ -422,7 +430,7 @@ def grpo_train_step(
             shift_logits,
             dim=-1,
         )
-
+        # [B T - 1]
         policy_log_probs = torch.gather(
             log_probs,
             dim=-1,
@@ -531,5 +539,5 @@ def grpo_train_step(
         **advantage_metadata,
         "gradient_norm": grad_norm_value,
     }
-
+    # []
     return total_loss.detach(), metadata

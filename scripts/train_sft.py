@@ -8,7 +8,7 @@ from torch.optim import AdamW
 from torch.utils.data import DataLoader
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-from cs336_alignment.sft_dataset import PackedSFTDataset
+from llm_alignment.sft_dataset import PackedSFTDataset
 
 
 def parse_args():

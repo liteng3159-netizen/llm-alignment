@@ -9,7 +9,7 @@ import subprocess
 
 import modal
 
-from cs336_alignment.modal_utils import (
+from llm_alignment.modal_utils import (
     GPU,
     MAX_CONTAINERS,
     SUNET_ID,

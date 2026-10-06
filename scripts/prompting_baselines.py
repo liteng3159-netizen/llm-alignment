@@ -3,7 +3,7 @@ from pathlib import Path
 
 from vllm import LLM, SamplingParams
 
-from cs336_alignment.drgrpo_grader import (
+from llm_alignment.drgrpo_grader import (
     question_only_reward_fn,
     r1_zero_reward_fn,
 )

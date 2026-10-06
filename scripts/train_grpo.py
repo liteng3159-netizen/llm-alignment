@@ -9,8 +9,8 @@ from transformers import (
 )
 import wandb
 
-from cs336_alignment.math_utils import extract_answer
-from cs336_alignment.grpo import grpo_train_step
+from llm_alignment.math_utils import extract_answer
+from llm_alignment.grpo import grpo_train_step
 
 
 device = torch.device("cuda:0")

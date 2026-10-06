@@ -11,7 +11,7 @@ import sys
 from transformers import AutoModelForCausalLM, AutoTokenizer  #用HF加载模型
 import torch
 from tqdm import tqdm
-from cs336_alignment.math_utils import extract_answer #从回答中解析出答案
+from llm-alignment.math_utils import extract_answer #从回答中解析出答案
 
 # Model to evaluate
 model_name = sys.argv[1] if len(sys.argv) > 1 else "EleutherAI/gpt-neo-2.7B"

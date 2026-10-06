@@ -6,8 +6,8 @@ from pathlib import Path
 from collections import Counter
 from typing import Any
 
-from cs336_alignment.vllm_utils import VLLMServer
-from cs336_alignment.drgrpo_grader import (
+from llm_alignment.vllm_utils import VLLMServer
+from llm_alignment.drgrpo_grader import (
     r1_zero_reward_fn,
     question_only_reward_fn,
 )

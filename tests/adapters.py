@@ -47,7 +47,7 @@ def run_tokenize_prompt_and_output(
                 is part of the response and 0 otherwise.
     """
     # raise NotImplementedError
-    from cs336_alignment.tokenize import tokenize_prompt_and_output
+    from llm_alignment.tokenize import tokenize_prompt_and_output
 
     return tokenize_prompt_and_output(prompt_strs=prompt_strs,
                                       output_strs=output_strs,
@@ -87,7 +87,7 @@ def run_get_response_log_probs(
                 entropy for each position (present only if
                 return_token_entropy=True).
     """
-    from cs336_alignment.get_response_log_prob import get_response_log_prob
+    from llm_alignment.get_response_log_prob import get_response_log_prob
 
     return get_response_log_prob(model=model,
                                  input_ids=input_ids,
@@ -124,7 +124,7 @@ def run_compute_rollout_rewards(
                 Reward statistics to log. At minimum, include the mean total
                 and format rewards over the rollout batch.
     """
-    from cs336_alignment.grpo import compute_rollout_rewards
+    from llm_alignment.grpo import compute_rollout_rewards
 
     return compute_rollout_rewards(reward_fn=reward_fn,
                                    rollout_responses=rollout_responses,
@@ -167,7 +167,7 @@ def run_compute_group_normalized_rewards(
                 your choice of other statistics to log (e.g. mean, std, max/min
                 of rewards).
     """
-    from cs336_alignment.grpo import compute_group_normalized_rewards
+    from llm_alignment.grpo import compute_group_normalized_rewards
 
     return compute_group_normalized_rewards(raw_rewards=raw_rewards,
                                             group_size=group_size,
@@ -221,7 +221,7 @@ def run_compute_policy_gradient_loss(
                 Statistics from the underlying loss call, such as
                 clip-fraction components.
     """
-    from cs336_alignment.grpo import compute_policy_gradient_loss
+    from llm_alignment.grpo import compute_policy_gradient_loss
 
     return compute_policy_gradient_loss(raw_rewards_or_advantages=raw_rewards_or_advantages,
                                         policy_log_probs=policy_log_probs,
@@ -260,7 +260,7 @@ def run_aggregate_loss_across_microbatch(
             A scalar containing the average loss. Make sure you can later call
             backward on this loss.
     """
-    from cs336_alignment.grpo import aggregate_loss_across_microbatch
+    from llm_alignment.grpo import aggregate_loss_across_microbatch
     return aggregate_loss_across_microbatch(per_token_policy_gradient_loss=per_token_policy_gradient_loss,
                                             mask=mask,
                                             loss_normalization=loss_normalization,
@@ -353,7 +353,7 @@ def run_grpo_train_step(
                 Dict with metadata from the underlying loss call, gradient norm
                 before clipping, and any other statistics you might want to log.
     """
-    from cs336_alignment.grpo import grpo_train_step
+    from llm_alignment.grpo import grpo_train_step
 
     return grpo_train_step(
         model=model,
@@ -411,7 +411,7 @@ def get_packed_sft_dataset(
         the token IDs for the language modeling labels.
     """
     # raise NotImplementedError
-    from cs336_alignment.sft_dataset import PackedSFTDataset
+    from llm_alignment.sft_dataset import PackedSFTDataset
     return PackedSFTDataset(tokenizer=tokenizer,
                             dataset_path=dataset_path,
                             seq_length=seq_length,
@@ -438,7 +438,7 @@ def run_iterate_batches(
     Returns:
         Iterable over batches, where each batch has size `batch_size`.
     """
-    from cs336_alignment.sft_dataset import run_iterate_batches
+    from llm_alignment.sft_dataset import run_iterate_batches
 
     return run_iterate_batches(dataset=dataset,
                                batch_size=batch_size,
@@ -469,7 +469,7 @@ def run_parse_mmlu_response(
         else None.
     """
     # raise NotImplementedError
-    from cs336_alignment.mmlu_baseline import parse_mmlu_response
+    from llm_alignment.mmlu_baseline import parse_mmlu_response
     return parse_mmlu_response(mmlu_example=mmlu_example,
                                response=model_output)
 
@@ -526,7 +526,7 @@ def run_compute_per_instance_dpo_loss(
         torch.Tensor with the DPO loss for this example.
     """
     # raise NotImplementedError
-    from cs336_alignment.dpo import dpo_loss
+    from llm_alignment.dpo import dpo_loss
 
     return dpo_loss(policy_lm=lm,
                     reference_lm=lm_ref,

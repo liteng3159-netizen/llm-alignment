@@ -47,7 +47,7 @@ def dpo_loss(
     )
 
     # =========================================================
-    # 4. Tokenize
+    # 4. Tokenize 这个就是把文本转成id 
     # =========================================================
     prompt_ids = tokenizer(
         prompt_text,
@@ -151,6 +151,7 @@ def dpo_loss(
 
         # sum response token log probabilities
         return response_log_probs.sum(dim=-1)
+        # [B]
 
     # =========================================================
     # 9. Policy log probabilities
